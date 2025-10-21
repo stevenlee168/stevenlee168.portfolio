@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chun-Ju, Lee — Portfolio</title>
+  <meta name="description" content="Personal portfolio: about, timeline, projects, contact">
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#98a0b3; --accent:#7c3aed;
+      --glass: rgba(255,255,255,0.03);
+      --max-width:1100px;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071021 0%, #071026 100%);color:#e6eef8}
+    .container{max-width:var(--max-width);margin:40px auto;padding:28px}
+    header{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+    .avatar{width:96px;height:96px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#062e6b);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:white}
+    h1{margin:0;font-size:28px}
+    p.lead{color:var(--muted);margin-top:6px}
+
+    /* layout */
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:28px;margin-top:24px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr;}.right-column{order:2}}
+
+    /* card */
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .section-title h2{margin:0;font-size:16px}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* timeline */
+    .timeline {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.08), transparent);
+    }
+
+    .tl-item {
+      position: relative;
+      padding: 14px 14px 14px 30px;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      background: var(--glass);
+      transition: background 0.3s ease;
+    }
+
+    .tl-item .dot {
+      position: absolute;
+      left: -6px;
+      top: 22px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+      transition: all 0.3s ease;
+    }
+
+    .tl-item:hover .dot {
+      background: #c084fc;
+      box-shadow: 0 0 10px 3px rgba(192, 132, 252, 0.6);
+      transform: scale(1.25);
+    }
+
+    .tl-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .tl-item time {
+      display: block;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .tl-item p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* responsive timeline for phones */
+    @media (max-width: 768px) {
+      .timeline {padding-left: 14px;}
+      .timeline::before {left: 7px;}
+      .tl-item {padding: 12px 12px 12px 26px;}
+      .tl-item .dot {left: -5px;top: 20px;width: 10px;height: 10px;}
+      .tl-item time {font-size: 12px;}
+      .tl-item p {font-size: 13px;}
+    }
+
+    /* projects */
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    @media (max-width:600px){.projects-grid{grid-template-columns:1fr}}
+    .project{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+    .project h3{margin:0;font-size:15px}
+    .project p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    /* controls */
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+    .btn.active{border-color:var(--accent);color:var(--accent);box-shadow:0 6px 18px rgba(124,58,237,0.06)}
+
+    /* project modal */
+    .modal{position:fixed;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+    .modal-backdrop{position:absolute;inset:0;background:linear-gradient(0deg,rgba(2,6,23,0.6),rgba(2,6,23,0.8))}
+    .modal-card{position:relative;z-index:2;max-width:900px;width:100%;background:var(--card);padding:22px;border-radius:12px}
+    .close{position:absolute;right:12px;top:12px;opacity:0.7}
+
+    footer{margin-top:26px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* small helpers */
+    .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .tag{padding:6px 8px;border-radius:999px;font-size:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.02)}
+    a{color:inherit}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="avatar">C.J.,Lee</div>
+      <div>
+        <h1>Chun-Ju, Lee / Steven Lee</h1>
+        <p class="lead">Robotics Engineer</p>
+        <div class="row" style="margin-top:8px">
+          <div class="tag">&#x1F4CD; Location: Saigon, Vietnam || Kaohsiung, Taiwan</div>
+          <div class="tag">&#9993; Email: <a href="mailto:leechunju1608@gmail.com">leechunju1608@gmail.com</a></div>
+          <div class="tag">&#128222; VN Phone: <a href="tel:+84906791694">+84-906-791-694</a></div>
+          <div class="tag">&#128222; TW Phone: <a href="tel:+886970761867">+886-970-761-867</a></div>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="left-column">
+        <div class="card">
+          <div class="section-title"><h2>About</h2><span class="muted">Quick intro</span></div>
+          <p class="muted">Replace this paragraph with a short description that tells visitors who you are, what you build, what you enjoy working on, and the technologies or domains you focus on. Keep it 2–4 sentences.</p>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="section-title"><h2>Timeline</h2><span class="muted">Career & milestones</span></div>
+          <div class="timeline" id="timeline">
+            <article class="tl-item">
+              <span class="dot"></span>
+              <time>Jun 2023 — Now</time>
+              <strong>Senior Robotics Engineer - Da Shiang Automation</strong><br>
+              <span class="muted">&#x1F4CD; Binh Duong, Vietnam</span>
+              <p>Managed the Vietnam market from North to South, providing post-sales support and technical service to customers. Delivered several industrial automation projects, including robotic grinding, laser cutting, and welding systems.</p>
+            </article>
+
+            <article class="tl-item">
+              <span class="dot"></span>
+              <time>Nov 2022 — Jun 2023</time>
+              <strong>Robotics Engineer - Da Shiang Automation</strong><br>
+              <span class="muted">&#x1F4CD; Taoyuan, Taiwan</span>
+              <p>Responsible for robot path planning, teaching motion trajectories, and developing robot algorithms to solve automation tasks such as grinding and deburring.</p>
+            </article>
+
+            <article class="tl-item">
+              <span class="dot"></span>
+              <time>2020 — 2022</time>
+              <strong>National Cheng Kung University — M.Sc. in Mechanical Engineering</strong><br>
+              <span class="muted">&#x1F4CD; Tainan, Taiwan</span>
+              <p>Thesis: Tool Wear Classification and Measurement Using Mask R-CNN. Focused on machine learning and computer vision using TensorFlow and OpenCV.</p>
+            </article>
+
+            <article class="tl-item">
+              <span class="dot"></span>
+              <time>2016 — 2020</time>
+              <strong>National Cheng Kung University — B.Sc. in Mechanical Engineering</strong><br>
+              <span class="muted">&#x1F4CD; Tainan, Taiwan</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="section-title"><h2>Projects</h2><span class="muted">Selected work</span></div>
+          <div class="filters" style="margin-bottom:12px">
+            <button class="btn active" data-filter="*">All</button>
+            <button class="btn" data-filter="web">Web</button>
+            <button class="btn" data-filter="robotics">Robotics</button>
+            <button class="btn" data-filter="research">Research</button>
+          </div>
+
+          <div class="projects-grid" id="projects">
+            <div class="project" data-type="web" data-title="Portfolio Website" data-details="&lt;h3&gt;Portfolio Website&lt;/h3&gt;&lt;p&gt;A responsive single-file portfolio built with vanilla JS.&lt;/p&gt;">
+              <h3>Portfolio Website</h3>
+              <p class="muted">Single-file HTML portfolio with timeline and modal details.</p>
+            </div>
+
+            <div class="project" data-type="robotics" data-title="Assembly Robot Integration" data-details="&lt;h3&gt;Assembly Robot Integration&lt;/h3&gt;&lt;p&gt;Integrated ABB robots with PLC and vision systems.&lt;/p&gt;">
+              <h3>Assembly Robot Integration</h3>
+              <p class="muted">ABB + vision + PLC integration for pick-and-place cell.</p>
+            </div>
+
+            <div class="project" data-type="research" data-title="Adaptive Control Paper" data-details="&lt;h3&gt;Adaptive Control Paper&lt;/h3&gt;&lt;p&gt;Published research on adaptive control for collaborative manipulators.&lt;/p&gt;">
+              <h3>Adaptive Control Paper</h3>
+              <p class="muted">M.Sc. thesis turned into open-source repo.</p>
+            </div>
+
+            <div class="project" data-type="web" data-title="Tooling Dashboard" data-details="&lt;h3&gt;Tooling Dashboard&lt;/h3&gt;&lt;p&gt;Internal dashboard to monitor CI builds and robot health.&lt;/p&gt;">
+              <h3>Tooling Dashboard</h3>
+              <p class="muted">Monitoring and alerting for build & robot fleets.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-column">
+        <div class="card">
+          <div class="section-title"><h2>Contact</h2><span class="muted">Get in touch</span></div>
+          <p class="muted">I'm open to collaboration, freelance work, and new opportunities. Email me at <a href="mailto:leechunju1608@gmail.com">leechunju1608@gmail.com</a> or connect on LinkedIn.</p>
+          <div style="margin-top:12px" class="row">
+            <a class="btn" href="#">Download CV</a>
+            <a class="btn" href="#">LinkedIn</a>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="section-title"><h2>Skills</h2><span class="muted">Tech, tools, and languages</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div class="tag">Python</div>
+            <div class="tag">ABB Robot</div>
+            <div class="tag">RobotMaster</div>
+            <div class="tag">RobotStudio</div>
+            <div class="tag">JavaScript</div>
+            <div class="tag">Mandarin</div>
+            <div class="tag">Vietnamese</div>
+            <div class="tag">Taiwanese</div>
+            <div class="tag">English</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="section-title"><h2>Hobby</h2><span class="muted">Beyond work</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div class="tag">☕ Iced Americano</div>
+            <div class="tag">🎧 Music</div>
+            <div class="tag">🏌️ Golf</div>
+            <div class="tag">💻 Coding</div>
+            <div class="tag">✈️ Traveling</div>
+            <div class="tag">&#129347; Whiskey</div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>Made with ♥.</footer>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" style="display:none">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card card">
+      <button class="close" id="closeModal">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // project click -> open modal
+    document.addEventListener('click', function(e){
+      const p = e.target.closest('.project');
+      if(p){
+        const title = p.dataset.title || p.querySelector('h3').innerText;
+        const details = p.dataset.details || '<p>No details provided.</p>';
+        document.getElementById('modalContent').innerHTML = '<h2>'+title+'</h2>'+details;
+        document.getElementById('modal').style.display = 'flex';
+      }
+      if(e.target.id==='closeModal' || e.target.classList.contains('modal-backdrop')){
+        document.getElementById('modal').style.display = 'none';
+      }
+    });
+
+    // filters
+    document.querySelectorAll('.filters .btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.filters .btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('#projects .project').forEach(pr=>{
+          if(filter==='*' || pr.dataset.type===filter) pr.style.display='block'; else pr.style.display='none';
+        })
+      })
+    })
+  </script>
+</body>
+</html>
