@@ -335,20 +335,55 @@
       })
     })
 
+    // --- Desktop hover behavior ---
     items.forEach(item => {
       item.addEventListener('mouseenter', () => {
-        const src = item.dataset.img;
-        if (src) {
-          img.src = src;
-          viewer.classList.add('show');
-          card.style.paddingBottom = '40px'; // expand space
+        if (window.matchMedia("(pointer: fine)").matches) { // desktop only
+          const src = item.dataset.img;
+          if (src) showImage(src, item);
         }
       });
       item.addEventListener('mouseleave', () => {
-        viewer.classList.remove('show');
-        card.style.paddingBottom = '20px'; // restore height
+        if (window.matchMedia("(pointer: fine)").matches) hideImage();
       });
     });
+    
+    // --- Mobile tap behavior ---
+    items.forEach(item => {
+      item.addEventListener('click', (e) => {
+        const src = item.dataset.img;
+        if (!src) return;
+    
+        // if the same item is tapped again → hide
+        if (activeItem === item) {
+          hideImage();
+          activeItem = null;
+        } else {
+          showImage(src, item);
+          activeItem = item;
+        }
+    
+        e.stopPropagation(); // prevent triggering document click
+      });
+    });
+    
+    // Hide image when tapping outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.tl-item')) {
+        hideImage();
+        activeItem = null;
+      }
+    });
+    
+    function showImage(src, item) {
+      img.src = src;
+      viewer.classList.add('show');
+    }
+    
+    function hideImage() {
+      viewer.classList.remove('show');
+    }
+
   </script>
 </body>
 </html>
