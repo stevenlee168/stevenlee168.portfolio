@@ -89,7 +89,13 @@
       font-size: 14px;
     }
 
-    /* timeline image viewer */
+    .tl-item.active .dot {
+      background: #c084fc;
+      box-shadow: 0 0 10px 3px rgba(192, 132, 252, 0.6);
+      transform: scale(1.25);
+      transition: all 0.3s ease;
+    }
+    
     .timeline-image-viewer {
       margin-top: 16px;
       text-align: center;
@@ -98,31 +104,27 @@
       overflow: hidden;
       transition: opacity 0.4s ease, height 0.4s ease;
     }
-
+    
     .timeline-image-viewer.show {
       opacity: 1;
       height: auto;
     }
-
+    
     .timeline-image-viewer img {
       max-width: 100%;
       max-height: 280px;
       border-radius: 10px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.4);
       border: 1px solid rgba(255,255,255,0.06);
-      transition: transform 0.4s ease;
-      transform: scale(0.98);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: scale(1);
     }
-
+    
     .timeline-image-viewer.show img {
+      opacity: 1;
       transform: scale(1);
     }
 
-    .tl-item.active .dot {
-      background: #c084fc;
-      box-shadow: 0 0 10px 3px rgba(192, 132, 252, 0.6);
-      transform: scale(1.25);
-    }
 
     /* responsive timeline for phones */
     @media (max-width: 768px) {
@@ -313,9 +315,9 @@
     const viewer = document.getElementById('timelineImageViewer');
     const img = document.getElementById('timelineImage');
     let activeItem = null;
-    const card = document.getElementById('timelineCard');
-    const timelineViewer = document.getElementById('timelineViewer');
-    const timelineImg = document.getElementById('timelineImg');
+    // detect touch device
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
     // project click -> open modal
     document.addEventListener('click', function(e){
       const p = e.target.closest('.project');
@@ -342,64 +344,56 @@
       })
     })
 
-    // --- Desktop hover behavior ---
+    // MAIN
     items.forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        if (!isTouchDevice()) {
-          const src = item.dataset.img;
-          if (src) showImage(src, item);
-        }
-      });
-      item.addEventListener('mouseleave', () => {
-        if (!isTouchDevice()) hideImage(item);
-      });
-    });
+      const src = item.dataset.img;
+      if (!src) return;
     
-    // --- Mobile tap behavior ---
-    items.forEach(item => {
-      item.addEventListener('click', (e) => {
-        const src = item.dataset.img;
-        if (!src) return;
+      // hover for desktop
+      if (!isTouch) {
+        item.addEventListener('mouseenter', () => showImage(src, item));
+        item.addEventListener('mouseleave', () => hideImage(item));
+      }
     
-        // tap same item → close
+      // tap for mobile
+      item.addEventListener('click', e => {
+        e.stopPropagation();
         if (activeItem === item) {
           hideImage(item);
           activeItem = null;
         } else {
-          // close previous first
           if (activeItem) hideImage(activeItem);
           showImage(src, item);
           activeItem = item;
         }
-    
-        e.stopPropagation();
       });
     });
     
-    // Tap outside → close viewer
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.tl-item')) {
-        if (activeItem) hideImage(activeItem);
+    // click outside hides viewer
+    document.addEventListener('click', () => {
+      if (activeItem) {
+        hideImage(activeItem);
         activeItem = null;
       }
     });
     
-    // --- Helper functions ---
     function showImage(src, item) {
       img.src = src;
+    
+      // small fade transition for image change
+      img.style.opacity = 0;
       viewer.classList.add('show');
-      item.classList.add('active'); // visually mark active dot
+      requestAnimationFrame(() => (img.style.opacity = 1));
+    
+      // highlight active dot
+      items.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
     }
     
     function hideImage(item) {
       viewer.classList.remove('show');
       if (item) item.classList.remove('active');
     }
-    
-    function isTouchDevice() {
-      return ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-    }
-
   </script>
 </body>
 </html>
