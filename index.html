@@ -118,6 +118,12 @@
       transform: scale(1);
     }
 
+    .tl-item.active .dot {
+      background: #c084fc;
+      box-shadow: 0 0 10px 3px rgba(192, 132, 252, 0.6);
+      transform: scale(1.25);
+    }
+
     /* responsive timeline for phones */
     @media (max-width: 768px) {
       .timeline {padding-left: 14px;}
@@ -336,7 +342,7 @@
       })
     })
 
-    // --- Desktop hover ---
+    // --- Desktop hover behavior ---
     items.forEach(item => {
       item.addEventListener('mouseenter', () => {
         if (!isTouchDevice()) {
@@ -345,21 +351,23 @@
         }
       });
       item.addEventListener('mouseleave', () => {
-        if (!isTouchDevice()) hideImage();
+        if (!isTouchDevice()) hideImage(item);
       });
     });
     
-    // --- Mobile tap ---
+    // --- Mobile tap behavior ---
     items.forEach(item => {
       item.addEventListener('click', (e) => {
         const src = item.dataset.img;
         if (!src) return;
     
-        // Tap the same one again → hide
+        // tap same item → close
         if (activeItem === item) {
-          hideImage();
+          hideImage(item);
           activeItem = null;
         } else {
+          // close previous first
+          if (activeItem) hideImage(activeItem);
           showImage(src, item);
           activeItem = item;
         }
@@ -368,27 +376,28 @@
       });
     });
     
-    // Tap outside → hide image
+    // Tap outside → close viewer
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.tl-item')) {
-        hideImage();
+        if (activeItem) hideImage(activeItem);
         activeItem = null;
       }
     });
     
-    // --- Helpers ---
-    function showImage(src) {
+    // --- Helper functions ---
+    function showImage(src, item) {
       img.src = src;
       viewer.classList.add('show');
+      item.classList.add('active'); // visually mark active dot
     }
     
-    function hideImage() {
+    function hideImage(item) {
       viewer.classList.remove('show');
+      if (item) item.classList.remove('active');
     }
     
-    // detect touch screens
     function isTouchDevice() {
-      return (('ontouchstart' in window) || navigator.maxTouchPoints > 0);
+      return ('ontouchstart' in window || navigator.maxTouchPoints > 0);
     }
 
   </script>
