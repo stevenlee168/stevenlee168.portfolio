@@ -25,10 +25,31 @@
     @media (max-width:900px){.grid{grid-template-columns:1fr;}.right-column{order:2}}
 
     /* card */
-    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);transition:padding-bottom 0.4s ease;}
     .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
     .section-title h2{margin:0;font-size:16px}
     .muted{color:var(--muted);font-size:13px}
+
+    /* avatar */
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 10%;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+    }
+
+    .avatar img {
+      width: auto;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
     /* timeline */
     .timeline {
@@ -53,6 +74,7 @@
       border-radius: 10px;
       background: var(--glass);
       transition: background 0.3s ease;
+      cursor: pointer;
     }
 
     .tl-item .dot {
@@ -99,12 +121,144 @@
       .tl-item p {font-size: 13px;}
     }
 
+    /* timeline image viewer */
+    .timeline-image-viewer {
+      margin-top: 16px;
+      text-align: center;
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      transition: opacity 0.4s ease, height 0.4s ease;
+    }
+
+    .timeline-image-viewer.show {
+      opacity: 1;
+      height: auto;
+    }
+
+    .timeline-image-viewer img {
+      max-width: 100%;
+      max-height: 280px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.4s ease;
+      transform: scale(0.98);
+    }
+
+    .timeline-image-viewer.show img {
+      transform: scale(1);
+    }
+
+    /* Location hover style */
+    .location {
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .location:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* Timeline image viewer — appears below the timeline */
+    .timeline-image-viewer {
+      margin-top: 20px;
+      text-align: center;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      opacity: 0;
+      transform: translateY(10px);
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .timeline-image-viewer.show {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 320px;
+    }
+
+    .timeline-image-viewer img {
+      max-width: 80%;
+      max-height: 320px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      object-fit: contain;
+    }
+
+    /* The floating location preview image */
+    #location-preview {
+      position: absolute;
+      left: 20px;             /* show on the left side */
+      bottom: 20px;           /* near the bottom */
+      width: 240px;           /* adjust for desired size */
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    #location-preview.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .location-img {
+      position: absolute;
+      left: -220px; /* move to the left of the dot */
+      top: 0;
+      width: 200px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 10;
+      filter: drop-shadow(0 0 8px var(--accent)) brightness(1);
+      fill: var(--accent);
+      stroke: var(--accent);
+    }
+    
+
+    .location:hover + .location-img,
+    .tl-item:hover .location-img {
+      opacity: 1;
+      transform: scale(1);
+      filter: drop-shadow(0 0 12px var(--accent)) brightness(1);
+    }
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      vertical-align: middle;
+      margin-right: 6px;
+      filter: brightness(0.9);
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+    .location:hover .icon {
+      opacity: 1;
+    }
+
+    .accent-icon {
+      filter: invert(58%) sepia(72%) saturate(4525%) hue-rotate(240deg) brightness(96%) contrast(102%);
+    }
+
+
     /* projects */
     .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     @media (max-width:600px){.projects-grid{grid-template-columns:1fr}}
     .project{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
     .project h3{margin:0;font-size:15px}
     .project p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    h3 a {color: var(--accent);text-decoration: none;transition: color 0.2s ease;}
+    h3 a:hover {color: #c084fc;text-decoration: underline;}
 
     /* controls */
     .filters{display:flex;gap:8px;flex-wrap:wrap}
@@ -123,7 +277,7 @@
     .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
     .tag{padding:6px 8px;border-radius:999px;font-size:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.02)}
     a{color:inherit}
-  </style>
+    </style>
 </head>
 <body>
   <div class="container">
@@ -155,34 +309,40 @@
               <span class="dot"></span>
               <time>Jun 2023 — Now</time>
               <strong>Senior Robotics Engineer - Da Shiang Automation</strong><br>
-              <span class="muted">&#x1F4CD; Binh Duong, Vietnam</span>
-              <p>Managed the Vietnam market from North to South, providing post-sales support and technical service to customers. Delivered several industrial automation projects, including robotic grinding, laser cutting, and welding systems.</p>
+              <span class="muted location">&#x1F4CD; Binh Duong, Vietnam</span>
+              <p>   Managed the Vietnam market from North to South, providing post-sales support and technical service to customers. Delivered several industrial automation projects, including robotic grinding, laser cutting, and welding systems.</p>
             </article>
 
             <article class="tl-item">
               <span class="dot"></span>
               <time>Nov 2022 — Jun 2023</time>
               <strong>Robotics Engineer - Da Shiang Automation</strong><br>
-              <span class="muted">&#x1F4CD; Taoyuan, Taiwan</span>
-              <p>responsible for robot path planning, teaching motion trajectories, and developing robot algorithms to solve automation tasks such as grinding and deburring.</p>
+              <span class="muted location">&#x1F4CD; Taoyuan, Taiwan</span>
+              <p>   Responsible for robot path planning, teaching motion trajectories, and developing robot algorithms to solve automation tasks such as grinding and deburring.</p>
             </article>
 
             <article class="tl-item">
               <span class="dot"></span>
               <time>2020 — 2022</time>
-              <strong>National Cheng Kung University — Bachelor of Science in Mechanical Engineering</strong><br>
-              <span class="muted">&#x1F4CD; Tainan, Taiwan</span>
+              <strong>National Cheng Kung University — Master of Science in Mechanical Engineering</strong><br>
+              <span class="muted location">&#x1F4CD; Tainan, Taiwan</span>
               <p>&#127775; Thesis: Tool Wear Classification and Measurement Using Mask R-CNN</p>
-              <p>In charge of research and development in computer vision, focusing on machine learning and convolutional neural network (CNN) algorithms. Responsible for data acquisition and analysis using Python and libraries such as OpenCV, Tensorflow, Keras, NumPy, and Pandas.</p>
+              <p>   In charge of research and development in computer vision, focusing on machine learning and convolutional neural network (CNN) algorithms. Responsible for data acquisition and analysis using Python and libraries such as OpenCV, Tensorflow, Keras, NumPy, and Pandas.</p>
             </article>
 
-            <article class="tl-item">
+            <article class="tl-item" data-img="static/Bachelor_NCKU.jpg">
               <span class="dot"></span>
               <time>2016 — 2020</time>
               <strong>National Cheng Kung University — Bachelor of Science in Mechanical Engineering</strong><br>
-              <span class="muted">&#x1F4CD; Tainan, Taiwan</span>
+              <span class="muted location">&#x1F4CD; Tainan, Taiwan</span>
+              <img class="location-img" src="static/Tainan_Taiwan_SVG.svg">
             </article>
           </div>
+
+          <div class="timeline-image-viewer" id="timelineImageViewer">
+            <img id="timelineImage" src="" alt="Timeline reference">
+          </div>
+
         </div>
 
         <div class="card" style="margin-top:16px">
@@ -206,8 +366,10 @@
             </div>
 
             <div class="project" data-type="research" data-title="Adaptive Control Paper" data-details="&lt;h3&gt;Adaptive Control Paper&lt;/h3&gt;&lt;p&gt;Published research on adaptive control for collaborative manipulators.&lt;/p&gt;">
-              <h3>Adaptive Control Paper</h3>
-              <p class="muted">M.Sc. thesis turned into open-source repo.</p>
+              <a href="https://ndltd.ncl.edu.tw/cgi-bin/gs32/gsweb.cgi/ccd=2riUvH/record?r1=2&h1=1" target="_blank" rel="noopener noreferrer">
+              <h3>Tool Wear Classification and Measurement Using Mask R-CNN</h3>
+              </a>
+              <p class="muted">M.Sc. thesis and Video</p>
             </div>
 
             <div class="project" data-type="web" data-title="Tooling Dashboard" data-details="&lt;h3&gt;Tooling Dashboard&lt;/h3&gt;&lt;p&gt;Internal dashboard to monitor CI builds and robot health.&lt;/p&gt;">
@@ -219,16 +381,8 @@
       </section>
 
       <aside class="right-column">
-        <div class="card">
-          <div class="section-title"><h2>Contact</h2><span class="muted">Get in touch</span></div>
-          <p class="muted">I'm open to collaboration, freelance work, and new opportunities. Email me at <a href="mailto:leechunju1608@gmail.com">leechunju1608@gmail.com</a> or connect on LinkedIn.</p>
-          <div style="margin-top:12px" class="row">
-            <a class="btn" href="#">Download CV</a>
-            <a class="btn" href="#">LinkedIn</a>
-          </div>
-        </div>
 
-        <div class="card" style="margin-top:16px">
+        <div class="card" >
           <div class="section-title"><h2>Skills</h2><span class="muted">Tech, tools, and languages</span></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <div class="tag">Python</div>
@@ -254,6 +408,15 @@
             <div class="tag">&#129347; Whiskey</div>
           </div>
         </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="section-title"><h2>Contact</h2><span class="muted">Get in touch</span></div>
+          <p class="muted">I'm open to collaboration, freelance work, and new opportunities. Email me at <a href="mailto:leechunju1608@gmail.com">leechunju1608@gmail.com</a> or connect on LinkedIn.</p>
+          <div style="margin-top:12px" class="row">
+            <a class="btn" href="#">Download CV</a>
+            <a class="btn" href="#">LinkedIn</a>
+          </div>
+        </div>
       </aside>
     </main>
 
@@ -270,6 +433,15 @@
   </div>
 
   <script>
+    const items = document.querySelectorAll('.tl-item');
+    const viewer = document.getElementById('timelineImageViewer');
+    const img = document.getElementById('timelineImage');
+    const card = document.getElementById('timelineCard');
+    const timelineViewer = document.getElementById('timelineViewer');
+    const timelineImg = document.getElementById('timelineImg');
+    const locations = document.querySelectorAll('.tl-item .location');
+    const preview = document.getElementById('location-preview');
+
     // project click -> open modal
     document.addEventListener('click', function(e){
       const p = e.target.closest('.project');
@@ -295,6 +467,64 @@
         })
       })
     })
+
+    // timeline image preview
+    //document.querySelectorAll('.tl-item').forEach(item=>{
+    //  item.addEventListener('click', ()=>{
+    //    const imgSrc = item.dataset.img;
+    //    const viewer = document.getElementById('timelineImageViewer');
+    //    const img = document.getElementById('timelineImage');
+    //    if(imgSrc){
+    //      img.src = imgSrc;
+    //      viewer.style.display = 'block';
+    //      setTimeout(()=>viewer.classList.add('show'),50);
+    //    }
+    //  });
+    //});
+
+    items.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const src = item.dataset.img;
+        if (src) {
+          img.src = src;
+          viewer.classList.add('show');
+          card.style.paddingBottom = '40px'; // expand space
+        }
+      });
+      item.addEventListener('mouseleave', () => {
+        viewer.classList.remove('show');
+        card.style.paddingBottom = '20px'; // restore height
+      });
+    });
+
+
+    //locations.forEach(loc => {
+    //  loc.addEventListener('mouseenter', () => {
+    //    const imgSrc = loc.closest('.tl-item').dataset.img;
+    //    if (imgSrc) {
+    //      timelineImg.src = imgSrc;
+    //      timelineViewer.classList.add('show');
+    //    }
+    //  });
+    //  loc.addEventListener('mouseleave', () => {
+    //    timelineViewer.classList.remove('show');
+    //  });
+    //});
+
+    document.querySelectorAll('.tl-item .location').forEach(loc => {
+      loc.addEventListener('mouseenter', () => {
+        const parent = loc.closest('.tl-item');
+        const imgSrc = parent.dataset.location;
+        if (imgSrc) {
+          preview.src = imgSrc;
+          preview.classList.add('visible');
+        }
+      });
+      loc.addEventListener('mouseleave', () => {
+        preview.classList.remove('visible');
+      });
+    });
+
   </script>
 </body>
 </html>
