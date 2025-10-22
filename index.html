@@ -164,7 +164,7 @@
               <time>Nov 2022 — Jun 2023</time>
               <strong>Robotics Engineer - Da Shiang Automation</strong><br>
               <span class="muted">&#x1F4CD; Taoyuan, Taiwan</span>
-              <p>responsible for robot path planning, teaching motion trajectories, and developing robot algorithms to solve automation tasks such as grinding and deburring.</p>
+              <p>Responsible for robot path planning, teaching motion trajectories, and developing robot algorithms to solve automation tasks such as grinding and deburring.</p>
             </article>
 
             <article class="tl-item">
@@ -176,7 +176,7 @@
               <p>In charge of research and development in computer vision, focusing on machine learning and convolutional neural network (CNN) algorithms. Responsible for data acquisition and analysis using Python and libraries such as OpenCV, Tensorflow, Keras, NumPy, and Pandas.</p>
             </article>
 
-            <article class="tl-item">
+            <article class="tl-item" data-img="static/Bachelor_NCKU.jpg">
               <span class="dot"></span>
               <time>2016 — 2020</time>
               <strong>National Cheng Kung University — Bachelor of Science in Mechanical Engineering</strong><br>
@@ -270,6 +270,12 @@
   </div>
 
   <script>
+    const items = document.querySelectorAll('.tl-item');
+    const viewer = document.getElementById('timelineImageViewer');
+    const img = document.getElementById('timelineImage');
+    const card = document.getElementById('timelineCard');
+    const timelineViewer = document.getElementById('timelineViewer');
+    const timelineImg = document.getElementById('timelineImg');
     // project click -> open modal
     document.addEventListener('click', function(e){
       const p = e.target.closest('.project');
@@ -295,6 +301,21 @@
         })
       })
     })
+
+    items.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const src = item.dataset.img;
+        if (src) {
+          img.src = src;
+          viewer.classList.add('show');
+          card.style.paddingBottom = '40px'; // expand space
+        }
+      });
+      item.addEventListener('mouseleave', () => {
+        viewer.classList.remove('show');
+        card.style.paddingBottom = '20px'; // restore height
+      });
+    });
   </script>
 </body>
 </html>
