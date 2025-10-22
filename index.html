@@ -453,7 +453,7 @@
     const card = document.getElementById('timelineCard');
     const timelineViewer = document.getElementById('timelineViewer');
     const timelineImg = document.getElementById('timelineImg');
-    const locations = document.querySelectorAll('.tl-item .location');
+    const locations = document.querySelectorAll('.location');
     const preview = document.getElementById('location-preview');
 
     // project click -> open modal
@@ -525,19 +525,42 @@
     //  });
     //});
 
-    document.querySelectorAll('.tl-item .location').forEach(loc => {
-      loc.addEventListener('mouseenter', () => {
-        const parent = loc.closest('.tl-item');
-        const imgSrc = parent.dataset.location;
-        if (imgSrc) {
-          preview.src = imgSrc;
-          preview.classList.add('visible');
-        }
-      });
-      loc.addEventListener('mouseleave', () => {
-        preview.classList.remove('visible');
-      });
+    // document.querySelectorAll('.tl-item .location').forEach(loc => {
+    //   loc.addEventListener('mouseenter', () => {
+    //     const parent = loc.closest('.tl-item');
+    //     const imgSrc = parent.dataset.location;
+    //     if (imgSrc) {
+    //       preview.src = imgSrc;
+    //       preview.classList.add('visible');
+    //     }
+    //   });
+    //   loc.addEventListener('mouseleave', () => {
+    //     preview.classList.remove('visible');
+    //   });
+    // });
+
+    locations.forEach(loc => {
+    const imgSrc = loc.closest('.tl-item').dataset.location;
+
+    // show on hover (desktop)
+    loc.addEventListener('mouseenter', () => {
+      preview.src = imgSrc;
+      preview.classList.add('show');
     });
+    loc.addEventListener('mouseleave', () => {
+      preview.classList.remove('show');
+    });
+
+    // show on tap (mobile)
+    loc.addEventListener('click', () => {
+      if (preview.src.includes(imgSrc) && preview.classList.contains('show')) {
+        preview.classList.remove('show'); // tap again to hide
+      } else {
+        preview.src = imgSrc;
+        preview.classList.add('show');
+      }
+    });
+  });
 
   </script>
 </body>
