@@ -540,27 +540,27 @@
     // });
 
     locations.forEach(loc => {
-    const imgSrc = loc.closest('.tl-item').dataset.location;
-
-    // show on hover (desktop)
-    loc.addEventListener('mouseenter', () => {
-      preview.src = imgSrc;
-      preview.classList.add('show');
-    });
-    loc.addEventListener('mouseleave', () => {
-      preview.classList.remove('show');
-    });
-
-    // show on tap (mobile)
-    loc.addEventListener('click', () => {
-      if (preview.src.includes(imgSrc) && preview.classList.contains('show')) {
-        preview.classList.remove('show'); // tap again to hide
-      } else {
+      const imgSrc = loc.closest('.tl-item').dataset.location;
+  
+      // show on hover (desktop)
+      loc.addEventListener('mouseenter', () => {
         preview.src = imgSrc;
         preview.classList.add('show');
-      }
+      });
+      loc.addEventListener('mouseleave', () => {
+        preview.classList.remove('show');
+      });
+  
+      // show on tap (mobile)
+      loc.addEventListener('click', () => {
+        if (preview.src.includes(imgSrc) && preview.classList.contains('show')) {
+          preview.classList.remove('show'); // tap again to hide
+        } else {
+          preview.src = imgSrc;
+          preview.classList.add('show');
+        }
+      });
     });
-  });
 
   </script>
 </body>
