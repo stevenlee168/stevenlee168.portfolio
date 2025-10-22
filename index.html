@@ -306,6 +306,7 @@
     const items = document.querySelectorAll('.tl-item');
     const viewer = document.getElementById('timelineImageViewer');
     const img = document.getElementById('timelineImage');
+    let activeItem = null;
     const card = document.getElementById('timelineCard');
     const timelineViewer = document.getElementById('timelineViewer');
     const timelineImg = document.getElementById('timelineImg');
@@ -335,26 +336,26 @@
       })
     })
 
-    // --- Desktop hover behavior ---
+    // --- Desktop hover ---
     items.forEach(item => {
       item.addEventListener('mouseenter', () => {
-        if (window.matchMedia("(pointer: fine)").matches) { // desktop only
+        if (!isTouchDevice()) {
           const src = item.dataset.img;
           if (src) showImage(src, item);
         }
       });
       item.addEventListener('mouseleave', () => {
-        if (window.matchMedia("(pointer: fine)").matches) hideImage();
+        if (!isTouchDevice()) hideImage();
       });
     });
     
-    // --- Mobile tap behavior ---
+    // --- Mobile tap ---
     items.forEach(item => {
       item.addEventListener('click', (e) => {
         const src = item.dataset.img;
         if (!src) return;
     
-        // if the same item is tapped again → hide
+        // Tap the same one again → hide
         if (activeItem === item) {
           hideImage();
           activeItem = null;
@@ -363,11 +364,11 @@
           activeItem = item;
         }
     
-        e.stopPropagation(); // prevent triggering document click
+        e.stopPropagation();
       });
     });
     
-    // Hide image when tapping outside
+    // Tap outside → hide image
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.tl-item')) {
         hideImage();
@@ -375,13 +376,19 @@
       }
     });
     
-    function showImage(src, item) {
+    // --- Helpers ---
+    function showImage(src) {
       img.src = src;
       viewer.classList.add('show');
     }
     
     function hideImage() {
       viewer.classList.remove('show');
+    }
+    
+    // detect touch screens
+    function isTouchDevice() {
+      return (('ontouchstart' in window) || navigator.maxTouchPoints > 0);
     }
 
   </script>
