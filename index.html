@@ -125,6 +125,68 @@
       transform: scale(1);
     }
 
+    /* --- Header layout --- */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    /* --- Avatar styles --- */
+    .avatar-container {
+      flex-shrink: 0;
+    }
+
+    .avatar-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .avatar-img:hover {
+      transform: scale(1.05);
+    }
+
+    /* --- Text styles --- */
+    .profile-info h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #fff; /* adjust to your theme */
+    }
+
+    .profile-info .lead {
+      margin: 4px 0 0;
+      font-size: 1.1rem;
+      color: #aaa;
+    }
+
+    /* --- Mobile version --- */
+    @media (max-width: 768px) {
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .avatar-img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .profile-info h1 {
+        font-size: 1.4rem;
+        margin-top: 12px;
+      }
+
+      .profile-info .lead {
+        font-size: 1rem;
+      }
+    }
 
     /* responsive timeline for phones */
     @media (max-width: 768px) {
@@ -164,18 +226,29 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="avatar">C.J.,Lee</div>
-      <div>
+    <header class="profile-header">
+      <div class="avatar-container">
+        <img src="static/you-photo.jpg" alt="Chun-Ju Lee avatar" class="avatar-img" />
+      </div>
+
+      <div class="profile-info">
         <h1>Chun-Ju, Lee / Steven Lee</h1>
         <p class="lead">Robotics Engineer</p>
-        <div class="row" style="margin-top:8px">
-          <div class="tag">&#x1F4CD; Location: Saigon, Vietnam || Kaohsiung, Taiwan</div>
-          <div class="tag">&#9993; Email: <a href="mailto:leechunju1608@gmail.com">leechunju1608@gmail.com</a></div>
-          <div class="tag">&#128222; VN Phone: <a href="tel:+84906791694">+84-906-791-694</a></div>
-          <div class="tag">&#128222; TW Phone: <a href="tel:+886970761867">+886-970-761-867</a></div>
-        </div>
       </div>
+    </header>
+
+    <header class="profile-header">
+        <div class="profile-info">
+            <div class="row contact-list" style="margin-top:0px">
+                <div class="tag">&#x1F4CD; Location: Saigon, Vietnam || Kaohsiung, Taiwan</div>
+                <div class="tag">&#9993; Email: <a href="mailto:leechunju1608@gmail.com">leechunju1608@gmail.com</a></div>
+            </div>
+
+            <div class="row contact-list" style="margin-top:8px">
+                <div class="tag">&#128222; VN Phone: <a href="tel:+84906791694">+84-906-791-694</a></div>
+                <div class="tag">&#128222; TW Phone: <a href="tel:+886970761867">+886-970-761-867</a></div>
+            </div>
+        </div>
     </header>
 
     <main class="grid">
@@ -207,7 +280,7 @@
             <article class="tl-item">
               <span class="dot"></span>
               <time>2020 — 2022</time>
-              <strong>National Cheng Kung University — Bachelor of Science in Mechanical Engineering</strong><br>
+              <strong>National Cheng Kung University — Master of Science in Mechanical Engineering</strong><br>
               <span class="muted">&#x1F4CD; Tainan, Taiwan</span>
               <p>&#127775; Thesis: Tool Wear Classification and Measurement Using Mask R-CNN</p>
               <p>In charge of research and development in computer vision, focusing on machine learning and convolutional neural network (CNN) algorithms. Responsible for data acquisition and analysis using Python and libraries such as OpenCV, Tensorflow, Keras, NumPy, and Pandas.</p>
