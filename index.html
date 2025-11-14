@@ -630,157 +630,159 @@ I’m passionate about bridging intelligent software and practical engineering, 
 //    }
 
     function showImage(sources, item) {
-      const viewer = document.createElement('div');
-      viewer.className = 'timeline-viewer active';
-      viewer.style.position = 'relative';
-      viewer.style.width = '100%';
-      viewer.style.overflow = 'hidden';
-      viewer.style.height = '300px';
-      viewer.style.display = 'flex';
-      viewer.style.alignItems = 'center';
-      viewer.style.justifyContent = 'center';
+  const viewer = document.createElement('div');
+  viewer.className = 'timeline-viewer active';
+  viewer.style.position = 'relative';
+  viewer.style.width = '100%';
+  viewer.style.overflow = 'hidden';
+  viewer.style.height = '300px';
+  viewer.style.display = 'flex';
+  viewer.style.alignItems = 'center';
+  viewer.style.justifyContent = 'center';
 
-      // Navigation buttons
-      const prevBtn = document.createElement('button');
-      prevBtn.className = 'timeline-nav left';
-      prevBtn.innerHTML = '&#11164;';
+  // Navigation buttons
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'timeline-nav left';
+  prevBtn.innerHTML = '&#11164;';
 
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'timeline-nav right';
-      nextBtn.innerHTML = '&#11166;';
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'timeline-nav right';
+  nextBtn.innerHTML = '&#11166;';
 
-      // Image container
-      const imgContainer = document.createElement('div');
-      imgContainer.style.position = 'relative';
-      imgContainer.style.display = 'flex';
-      imgContainer.style.alignItems = 'center';
-      imgContainer.style.justifyContent = 'center';
-      imgContainer.style.height = '250px';
-      imgContainer.style.overflow = 'visible';
-      imgContainer.style.transition = 'transform 0.4s ease';
+  // Image container
+  const imgContainer = document.createElement('div');
+  imgContainer.style.position = 'relative';
+  imgContainer.style.display = 'flex';
+  imgContainer.style.alignItems = 'center';
+  imgContainer.style.justifyContent = 'center';
+  imgContainer.style.height = '250px';
+  imgContainer.style.overflow = 'hidden'; // prevent layout expansion
+  imgContainer.style.transition = 'transform 0.4s ease';
+  //imgContainer.style.marginLeft = '120px';
+  imgContainer.style.maxWidth = 'calc(100% - 140px)';
+  imgContainer.style.boxSizing = 'border-box';
 
-      // Current center index
-      let index = 0;
+  // Current center index
+  let index = 0;
 
-      function getLoopIndex(i) {
-        return (i + sources.length) % sources.length;
-      }
+  // Loop helper
+  function getLoopIndex(i) {
+    return (i + sources.length) % sources.length;
+  }
 
-      function renderImages() {
-        imgContainer.innerHTML = "";
-  
-        // Always 3 images in loop
-        const leftImg  = sources[getLoopIndex(index - 1)];
-        const midImg   = sources[getLoopIndex(index)];
-        const rightImg = sources[getLoopIndex(index + 1)];
-  
-        const visible = [leftImg, midImg, rightImg];
-  
-        visible.forEach((src, i) => {
-          const img = document.createElement('img');
-          img.src = src;
-          img.style.height = '230px';
-          img.style.borderRadius = '6px';
-          img.style.objectFit = 'cover';
-          img.style.transition = 'all 0.4s ease';
-          img.style.position = 'relative';
-  
-          // Layout & Overlap
-          if (i === 0) img.style.marginRight = '-50px'; // left image overlaps center
-          if (i === 2) img.style.marginLeft = '-50px';  // right image overlaps center
-  
-          // Center (main) image
-          if (i === 1) {
-            img.style.opacity = '1';
-            img.style.transform = 'scale(1.1)';
-            img.style.zIndex = 10;
-            img.style.cursor = 'zoom-in';
-  
-            // CLICK TO SHOW POPUP
-            img.addEventListener('click', e => {
-              e.stopPropagation();
-              const popupImg = document.querySelector('.img-popup img');
-              popupImg.src = src;
-              document.querySelector('.img-popup').style.display = 'flex';
-            });
-  
-          } else {
-            // Left & right images (faded)
-            img.style.opacity = '0.5';
-            img.style.transform = 'scale(0.85)';
-            img.style.zIndex = 1;
-            img.style.pointerEvents = 'none'; // prevent clicking background images
-          }
-  
-          imgContainer.appendChild(img);
+  // Render images
+  function renderImages() {
+    imgContainer.innerHTML = '';
+
+    const leftImg  = sources[getLoopIndex(index - 1)];
+    const midImg   = sources[getLoopIndex(index)];
+    const rightImg = sources[getLoopIndex(index + 1)];
+
+    const visible = [leftImg, midImg, rightImg];
+
+    visible.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.height = '230px';
+      img.style.borderRadius = '6px';
+      img.style.objectFit = 'cover';
+      img.style.transition = 'all 0.4s ease';
+      img.style.position = 'relative';
+      img.style.flexShrink = '0';
+      img.style.maxWidth = '100%';
+
+      // Layout & overlap
+      if (i === 0) img.style.marginRight = '-50px';
+      if (i === 2) img.style.marginLeft = '-50px';
+
+      // Center main image
+      if (i === 1) {
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1.1)';
+        img.style.zIndex = 10;
+        img.style.cursor = 'zoom-in';
+
+        img.addEventListener('click', e => {
+          e.stopPropagation();
+          const popupImg = document.querySelector('.img-popup img');
+          popupImg.src = src;
+          document.querySelector('.img-popup').style.display = 'flex';
         });
+      } else {
+        // Left & right faded
+        img.style.opacity = '0.5';
+        img.style.transform = 'scale(0.85)';
+        img.style.zIndex = 1;
+        img.style.pointerEvents = 'none';
       }
 
+      imgContainer.appendChild(img);
+    });
+  }
 
-      // Initial display
-      renderImages();
+  // Initial render
+  renderImages();
 
-      // Looping navigation
-      prevBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        index = getLoopIndex(index - 1);
-        renderImages();
-      });
+  // Navigation
+  prevBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    index = getLoopIndex(index - 1);
+    renderImages();
+  });
 
-      nextBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        index = getLoopIndex(index + 1);
-        renderImages();
-      });
+  nextBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    index = getLoopIndex(index + 1);
+    renderImages();
+  });
 
-      viewer.appendChild(prevBtn);
-      viewer.appendChild(imgContainer);
-      viewer.appendChild(nextBtn);
+  viewer.appendChild(prevBtn);
+  viewer.appendChild(imgContainer);
+  viewer.appendChild(nextBtn);
 
-      item.appendChild(viewer);
-      item.classList.add('active');
+  item.appendChild(viewer);
+  item.classList.add('active');
 
-      // ---------- POPUP MODAL SETUP (only created once) ----------
-      let popup = document.querySelector('.img-popup');
-      if (!popup) {
-        popup = document.createElement('div');
-        popup.className = 'img-popup';
-        popup.style.position = 'fixed';
-        popup.style.top = '0';
-        popup.style.left = '0';
-        popup.style.width = '100vw';
-        popup.style.height = '100vh';
-        popup.style.background = 'rgba(0,0,0,0.75)';
+  // ---------- POPUP MODAL (only once) ----------
+  let popup = document.querySelector('.img-popup');
+  if (!popup) {
+    popup = document.createElement('div');
+    popup.className = 'img-popup';
+    popup.style.position = 'fixed';
+    popup.style.top = '0';
+    popup.style.left = '0';
+    popup.style.width = '100vw';
+    popup.style.height = '100vh';
+    popup.style.background = 'rgba(0,0,0,0.75)';
+    popup.style.display = 'none';
+    popup.style.justifyContent = 'center';
+    popup.style.alignItems = 'center';
+    popup.style.zIndex = '99999';
+    popup.style.cursor = 'zoom-out';
+
+    const bigImg = document.createElement('img');
+    bigImg.style.maxWidth = '90%';
+    bigImg.style.maxHeight = '90%';
+    bigImg.style.borderRadius = '10px';
+    bigImg.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
+    bigImg.style.transition = '0.3s ease';
+
+    popup.appendChild(bigImg);
+    document.body.appendChild(popup);
+
+    popup.addEventListener('click', (e) => {
+      e.stopPropagation(); // do not close timeline
+      popup.style.display = 'none';
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popup.style.display === 'flex') {
         popup.style.display = 'none';
-        popup.style.justifyContent = 'center';
-        popup.style.alignItems = 'center';
-        popup.style.zIndex = '99999';
-        popup.style.cursor = 'zoom-out';
-  
-        const bigImg = document.createElement('img');
-        bigImg.style.maxWidth = '90%';
-        bigImg.style.maxHeight = '90%';
-        bigImg.style.borderRadius = '10px';
-        bigImg.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
-        bigImg.style.transition = '0.3s ease';
-  
-        popup.appendChild(bigImg);
-        document.body.appendChild(popup);
-  
-        popup.addEventListener('click', (e) => {
-          e.stopPropagation(); // ✅ prevent timeline from closing
-          popup.style.display = 'none';
-        });
-  
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            if (popup.style.display === 'flex') {
-              popup.style.display = 'none'; // only close popup
-            }
-          }
-        });
       }
-    }
+    });
+  }
+}
+
 
     function hideImage(item) {
       const viewer = item.querySelector('.timeline-viewer');
