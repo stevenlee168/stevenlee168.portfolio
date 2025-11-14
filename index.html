@@ -125,6 +125,92 @@
       transform: scale(1);
     }
 
+    /* Navigation buttons */
+    /* Prevent the whole card from expanding */
+    #timelineCard {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Limit timeline viewer inside each tl-item */
+    .timeline-viewer {
+      position: relative;
+      margin-top: 10px;
+      overflow-x: hidden; /* key fix — prevent horizontal expansion */
+      width: 100%;        /* stay inside the card */
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Image row stays in its own width but doesn't push parent */
+    .timeline-images {
+      display: flex;
+      align-items: center;
+      position: relative;
+      gap: 8px;
+      overflow: visible;
+      flex-wrap: nowrap;
+      max-width: 100%;
+    }
+
+    /* All images are fixed height and scaled */
+    .timeline-images img {
+      height: 200px;
+      border-radius: 10px;
+      object-fit: cover;
+      transition: all 0.4s ease;
+      opacity: 0.4;
+      transform: scale(0.9);
+      z-index: 1;
+      position: relative;
+      flex-shrink: 0; /* stop shrinking */
+    }
+
+    /* Emphasize the first image */
+    .timeline-images img:first-child {
+      opacity: 1;
+      transform: scale(1.1);
+      z-index: 3;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Overlap effect for the rest */
+    .timeline-images img:not(:first-child) {
+      margin-left: -40px;
+    }
+
+    /* Keep nav buttons positioned inside viewer */
+    .timeline-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      transition: all 0.3s ease;
+      z-index: 5;
+    }
+
+    .timeline-viewer.active .timeline-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timeline-nav.left { left: 8px; }
+    .timeline-nav.right { right: 8px; }
+
+    .timeline-nav:hover {
+      background: #c084fc;
+    }
+
+
     /* --- Header layout --- */
     .profile-header {
       display: flex;
@@ -232,8 +318,8 @@
       </div>
 
       <div class="profile-info">
-        <h1>Chun-Ju, Lee / Steven Lee</h1>
-        <p class="lead">Robotics Engineer</p>
+        <h1>Chun-Ju, Lee/ Steven Lee</h1>
+        <p class="lead">Robotics Engineer/ Computer Vision Engineer</p>
       </div>
     </header>
 
@@ -277,7 +363,7 @@ I’m passionate about bridging intelligent software and practical engineering, 
               <p>Responsible for robot path planning, teaching motion trajectories, and developing robot algorithms to solve automation tasks such as grinding and deburring.</p>
             </article>
 
-            <article class="tl-item">
+            <article class="tl-item" data-img='["static/Master_Of_Science.jpg"]'>
               <span class="dot"></span>
               <time>2020 — 2022</time>
               <strong>National Cheng Kung University — Master of Science in Mechanical Engineering</strong><br>
@@ -286,7 +372,7 @@ I’m passionate about bridging intelligent software and practical engineering, 
               <p>In charge of research and development in computer vision, focusing on machine learning and convolutional neural network (CNN) algorithms. Responsible for data acquisition and analysis using Python and libraries such as OpenCV, Tensorflow, Keras, NumPy, and Pandas.</p>
             </article>
 
-            <article class="tl-item" data-img="static/Bachelor_NCKU.jpg">
+            <article class="tl-item" data-img='["static/Bachelor_NCKU.jpg", "static/Bachelor_Of_Science.jpg","static/Bachelor_Project.jpg"]'>
               <span class="dot"></span>
               <time>2016 — 2020</time>
               <strong>National Cheng Kung University — Bachelor of Science in Mechanical Engineering</strong><br>
@@ -313,8 +399,7 @@ I’m passionate about bridging intelligent software and practical engineering, 
             <div class="project" 
                  data-type="web" 
                  data-title="Portfolio Website" 
-                 data-details="&lt;h3&gt;Portfolio Website&lt;/h3&gt;
-                               &lt;p&gt;A personal portfolio website introducing myself and highlighting my background and projects.&lt;/p&gt;
+                 data-details="&lt;p&gt;A personal portfolio website introducing myself and highlighting my background and projects.&lt;/p&gt;
                                &lt;p&gt;Live demo: &lt;a href='https://stevenlee168portfolio.netlify.app/#' target='_blank'&gt;stevenlee168portfolio.netlify.app&lt;/a&gt;&lt;/p&gt;">
               <h3>Portfolio Website</h3>
               <p class="muted">A personal portfolio website introducing myself and highlighting my background and projects.</p>
@@ -322,27 +407,63 @@ I’m passionate about bridging intelligent software and practical engineering, 
 
             <div class="project" 
                  data-type="robotics" 
-                 data-title="Assembly Robot Integration" 
-                 data-details="&lt;h3&gt;Assembly Robot Integration&lt;/h3&gt;
-                               &lt;p&gt;Integrated ABB robots with PLC and vision systems.&lt;/p&gt;">
-              <h3>Assembly Robot Integration</h3>
-              <p class="muted">ABB + vision + PLC integration for pick-and-place cell.</p>
+                 data-title="Robot Deburring" 
+                 data-details="&lt;p&gt;Implemented an ABB robotic system to automate the deburring process of aluminum workpieces, improving precision, efficiency, and consistency in post-machining operations.&lt;/p&gt;">
+              <h3>Robot Deburring</h3>
+              <p class="muted">Implemented an ABB robotic system to automate the deburring process of aluminum workpieces, improving precision, efficiency, and consistency in post-machining operations.</p>
+            </div>
+
+            <div class="project" 
+                 data-type="robotics" 
+                 data-title="Robot Manifacturing Line Integration" 
+                 data-details="&lt;p&gt;Integrated five robots into a manufacturing line. The system includes one robot for pick-and-place operations, one for external grinding, two for internal deburring, and one for drilling holes in the workpieces.&lt;/p&gt;
+                               &lt;p&gt;Video: &lt;a href='https://www.youtube.com/watch?v=6EvM9Kdmm9w' target='_blank'&gt;https://www.youtube.com/watch?v=6EvM9Kdmm9w/&lt;/a&gt;&lt;/p&gt;">
+              <h3>Robot Manifacturing Line Integration</h3>
+              <p class="muted">Integrated five robots into a manufacturing line. The system includes one robot for pick-and-place operations, one for external grinding, two for internal deburring, and one for drilling holes in the workpieces.</p>
+            </div>
+
+            <div class="project" 
+                 data-type="robotics" 
+                 data-title="Robot Laser Cutting System" 
+                 data-details="&lt;p&gt;Developed a Robot Laser Cutting System utilizing a high-precision industrial robot for automated part cutting. The robot motion paths were generated through Robotmaster CAM software, eliminating the need for manual teaching and significantly improving accuracy, efficiency, and consistency in production.&lt;/p&gt;">
+              <h3>Robot Laser Cutting System</h3>
+              <p class="muted">Built a high-precision robotic laser cutting system with toolpaths generated by Robotmaster software, removing manual teaching and improving cutting accuracy and efficiency.</p>
+            </div>
+
+            <div class="project" 
+                 data-type="robotics" 
+                 data-title="Robot Welding Part Grinding" 
+                 data-details="&lt;p&gt;Implemented an ABB robotic system to automate the grinding of welded components, producing smoother and more consistent bicycle frames while reducing manual labor.&lt;/p&gt;">
+              <h3>Robot Welding Part Grinding</h3>
+              <p class="muted">Implemented an ABB robotic system to automate the grinding of welded components, producing smoother and more consistent bicycle frames while reducing manual labor.</p>
             </div>
 
             <div class="project" 
                  data-type="research" 
-                 data-title="Adaptive Control Paper" 
-                 data-details="&lt;h3&gt;Adaptive Control Paper&lt;/h3&gt;
-                               &lt;p&gt;Published research on adaptive control for collaborative manipulators.&lt;/p&gt;">
-              <h3>Adaptive Control Paper</h3>
-              <p class="muted">M.Sc. thesis turned into open-source repo.</p>
+                 data-title="Tool Wear Classification and Measurement Using Mask R-CNN" 
+                 data-details="&lt;img src='static/CSME_38th.png' alt='38th CSME Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                               &lt;p&gt;Developed a system using Mask R-CNN to detect tool wear, classify the type of wear, and accurately measure the wear length, enabling automated tool condition monitoring and analysis.&lt;/p&gt;
+                               &lt;p&gt;Video: &lt;a href='https://www.youtube.com/watch?v=WlDxPcxxpXQ' target='_blank'&gt;https://www.youtube.com/watch?v=WlDxPcxxpXQ/&lt;/a&gt;&lt;/p&gt;">
+              <h3>Tool Wear Classification and Measurement Using Mask R-CNN</h3>
+              <p class="muted">Developed a system using Mask R-CNN to detect tool wear.</p>
+            </div>
+
+            <div class="project" 
+                 data-type="research" 
+                 data-title="38th Chinese Society of Mechanical Engineers Conference"
+                 data-details="&lt;img src='static/CSME_38th.png' alt='38th CSME Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                               &lt;p&gt;Published research at the 38th CSME (中國機械工程學會) Conference.&lt;/p&gt;
+                               &lt;p&gt;Paper: &lt;a href='https://drive.google.com/file/d/1W_FbtK7q7favQHlBeEkmRvma2FOUgMz1/view?usp=sharing' target='_blank'&gt;Conference Paper&lt;/a&gt;&lt;/p&gt;
+                               &lt;p&gt;Conference Video: &lt;a href='https://www.youtube.com/watch?v=K-ZZpbi51fU' target='_blank'&gt;https://www.youtube.com/watch?v=K-ZZpbi51fU/&lt;/a&gt;&lt;/p&gt;
+                               &lt;p&gt;Video: &lt;a href='https://www.youtube.com/watch?v=O9zY1dEPqAU' target='_blank'&gt;https://www.youtube.com/watch?v=O9zY1dEPqAU/&lt;/a&gt;&lt;/p&gt;">
+              <h3>38th Chinese Society of Mechanical Engineers Conference</h3>
+              <p class="muted">Demonstration of using Convolutional Neural Networks (CNNs) to detect tool wear.</p>
             </div>
 
             <div class="project" 
                  data-type="web" 
                  data-title="RobotMaster ABB RAPID Post-Processor" 
-                 data-details="&lt;h3&gt;RobotMaster ABB RAPID Post-Processor Website&lt;/h3&gt;
-                               &lt;img src='static/rmutility_preview.png' alt='RobotMaster Post-Processor Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                 data-details="&lt;img src='static/rmutility_preview.png' alt='RobotMaster Post-Processor Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
                                &lt;p&gt;A web-based tool designed to simplify and automate Robotmaster post-processing code edits. Traditionally, engineers spend 20–30 minutes manually modifying the code and risk introducing errors. With this tool, editing time is reduced to just 1–5 minutes while improving precision and consistency.&lt;/p&gt;
                                &lt;p&gt;Live demo: &lt;a href='https://rmutility.onrender.com/' target='_blank'&gt;https://rmutility.onrender.com/&lt;/a&gt;&lt;/p&gt;">
               <h3>RobotMaster ABB RAPID Post-Processor Website</h3>
@@ -352,8 +473,7 @@ I’m passionate about bridging intelligent software and practical engineering, 
             <div class="project" 
                  data-type="compuervision" 
                  data-title="Mold OCR Serial Number" 
-                 data-details="&lt;h3&gt;Mold OCR Serial Number&lt;/h3&gt;
-                               &lt;img src='static/OCR_preview.png' alt='OCR Serial Number Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                 data-details="&lt;img src='static/OCR_preview.png' alt='OCR Serial Number Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
                                &lt;p&gt;Using Python and Pytesseract, I developed an OCR system to recognize mold serial numbers. The user interface was built with PyQt5, and after recognizing the serial number, the program connects to a MySQL database to retrieve the corresponding machining code, which is then used for automated machining operations.&lt;/p&gt;">
               <h3>Mold OCR Serial Number</h3>
               <p class="muted">Using Python & Pytesseract to build a OCR for mold's serial number.</p>
@@ -450,54 +570,224 @@ I’m passionate about bridging intelligent software and practical engineering, 
 
     // MAIN
     items.forEach(item => {
-      const src = item.dataset.img;
-      if (!src) return;
-    
-      // hover for desktop
-      if (!isTouch) {
-        item.addEventListener('mouseenter', () => showImage(src, item));
-        item.addEventListener('mouseleave', () => hideImage(item));
-      }
-    
-      // tap for mobile
+      const srcData = item.dataset.img;
+      if (!srcData) return;
+
+      // click or tap
       item.addEventListener('click', e => {
         e.stopPropagation();
+        const sources = srcData.startsWith('[') ? JSON.parse(srcData) : [srcData];
+
         if (activeItem === item) {
           hideImage(item);
           activeItem = null;
         } else {
           if (activeItem) hideImage(activeItem);
-          showImage(src, item);
+          showImage(sources, item);
           activeItem = item;
         }
       });
     });
-    
+
     // click outside hides viewer
-    document.addEventListener('click', () => {
+    document.addEventListener('click', e => {
+      const viewer = document.querySelector('#timelineImageViewer');
+      // if click is inside viewer, do nothing
+      if (viewer && viewer.contains(e.target)) return;
+
+      // otherwise close the viewer
       if (activeItem) {
         hideImage(activeItem);
         activeItem = null;
       }
     });
-    
-    function showImage(src, item) {
-      img.src = src;
-    
-      // small fade transition for image change
-      img.style.opacity = 0;
-      viewer.classList.add('show');
-      requestAnimationFrame(() => (img.style.opacity = 1));
-    
-      // highlight active dot
-      items.forEach(i => i.classList.remove('active'));
+
+//    function showImage(sources, item) {
+//      viewer.innerHTML = ""; // clear previous images
+//
+//      // Create image elements for each source
+//      sources.forEach(src => {
+//        const imgEl = document.createElement("img");
+//        imgEl.src = src;
+//        imgEl.style.opacity = 0;
+//        viewer.appendChild(imgEl);
+//
+//        // Smooth fade-in
+//        requestAnimationFrame(() => (imgEl.style.opacity = 1));
+//      });
+//
+//      viewer.classList.add("show");
+//
+//      // highlight active item
+//      items.forEach(i => i.classList.remove("active"));
+//      item.classList.add("active");
+//    }
+//
+//    function hideImage(item) {
+//      viewer.classList.remove("show");
+//      viewer.innerHTML = ""; // clear images when hidden
+//      if (item) item.classList.remove("active");
+//    }
+
+    function showImage(sources, item) {
+      const viewer = document.createElement('div');
+      viewer.className = 'timeline-viewer active';
+      viewer.style.position = 'relative';
+      viewer.style.width = '100%';
+      viewer.style.overflow = 'hidden';
+      viewer.style.height = '300px';
+      viewer.style.display = 'flex';
+      viewer.style.alignItems = 'center';
+      viewer.style.justifyContent = 'center';
+
+      // Navigation buttons
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'timeline-nav left';
+      prevBtn.innerHTML = '&#11164;';
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'timeline-nav right';
+      nextBtn.innerHTML = '&#11166;';
+
+      // Image container
+      const imgContainer = document.createElement('div');
+      imgContainer.style.position = 'relative';
+      imgContainer.style.display = 'flex';
+      imgContainer.style.alignItems = 'center';
+      imgContainer.style.justifyContent = 'center';
+      imgContainer.style.height = '250px';
+      imgContainer.style.overflow = 'visible';
+      imgContainer.style.transition = 'transform 0.4s ease';
+
+      // Current center index
+      let index = 0;
+
+      function getLoopIndex(i) {
+        return (i + sources.length) % sources.length;
+      }
+
+      function renderImages() {
+        imgContainer.innerHTML = "";
+  
+        // Always 3 images in loop
+        const leftImg  = sources[getLoopIndex(index - 1)];
+        const midImg   = sources[getLoopIndex(index)];
+        const rightImg = sources[getLoopIndex(index + 1)];
+  
+        const visible = [leftImg, midImg, rightImg];
+  
+        visible.forEach((src, i) => {
+          const img = document.createElement('img');
+          img.src = src;
+          img.style.height = '230px';
+          img.style.borderRadius = '6px';
+          img.style.objectFit = 'cover';
+          img.style.transition = 'all 0.4s ease';
+          img.style.position = 'relative';
+  
+          // Layout & Overlap
+          if (i === 0) img.style.marginRight = '-50px'; // left image overlaps center
+          if (i === 2) img.style.marginLeft = '-50px';  // right image overlaps center
+  
+          // Center (main) image
+          if (i === 1) {
+            img.style.opacity = '1';
+            img.style.transform = 'scale(1.1)';
+            img.style.zIndex = 10;
+            img.style.cursor = 'zoom-in';
+  
+            // CLICK TO SHOW POPUP
+            img.addEventListener('click', e => {
+              e.stopPropagation();
+              const popupImg = document.querySelector('.img-popup img');
+              popupImg.src = src;
+              document.querySelector('.img-popup').style.display = 'flex';
+            });
+  
+          } else {
+            // Left & right images (faded)
+            img.style.opacity = '0.5';
+            img.style.transform = 'scale(0.85)';
+            img.style.zIndex = 1;
+            img.style.pointerEvents = 'none'; // prevent clicking background images
+          }
+  
+          imgContainer.appendChild(img);
+        });
+      }
+
+
+      // Initial display
+      renderImages();
+
+      // Looping navigation
+      prevBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        index = getLoopIndex(index - 1);
+        renderImages();
+      });
+
+      nextBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        index = getLoopIndex(index + 1);
+        renderImages();
+      });
+
+      viewer.appendChild(prevBtn);
+      viewer.appendChild(imgContainer);
+      viewer.appendChild(nextBtn);
+
+      item.appendChild(viewer);
       item.classList.add('active');
+
+      // ---------- POPUP MODAL SETUP (only created once) ----------
+      let popup = document.querySelector('.img-popup');
+      if (!popup) {
+        popup = document.createElement('div');
+        popup.className = 'img-popup';
+        popup.style.position = 'fixed';
+        popup.style.top = '0';
+        popup.style.left = '0';
+        popup.style.width = '100vw';
+        popup.style.height = '100vh';
+        popup.style.background = 'rgba(0,0,0,0.75)';
+        popup.style.display = 'none';
+        popup.style.justifyContent = 'center';
+        popup.style.alignItems = 'center';
+        popup.style.zIndex = '99999';
+        popup.style.cursor = 'zoom-out';
+  
+        const bigImg = document.createElement('img');
+        bigImg.style.maxWidth = '90%';
+        bigImg.style.maxHeight = '90%';
+        bigImg.style.borderRadius = '10px';
+        bigImg.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
+        bigImg.style.transition = '0.3s ease';
+  
+        popup.appendChild(bigImg);
+        document.body.appendChild(popup);
+  
+        popup.addEventListener('click', (e) => {
+          e.stopPropagation(); // ✅ prevent timeline from closing
+          popup.style.display = 'none';
+        });
+  
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            if (popup.style.display === 'flex') {
+              popup.style.display = 'none'; // only close popup
+            }
+          }
+        });
+      }
     }
-    
+
     function hideImage(item) {
-      viewer.classList.remove('show');
-      if (item) item.classList.remove('active');
+      const viewer = item.querySelector('.timeline-viewer');
+      if (viewer) viewer.remove();
+      item.classList.remove('active');
     }
+
   </script>
 </body>
 </html>
