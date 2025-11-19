@@ -346,8 +346,8 @@ I’m passionate about bridging intelligent software and practical engineering, 
 
         <div class="card" id="timelineCard"  style="margin-top:16px">
           <div class="section-title"><h2>Timeline</h2><span class="muted">Career & milestones</span></div>
-          <div class="timeline" id="timeline">
-            <article class="tl-item">
+          <div class="timeline" id="timeline" >
+            <article class="tl-item" data-img='["static/StevenDec2024.jpg","static/StevenOct2024_2.png","static/StevenOct2024_1.png"]'>
               <span class="dot"></span>
               <time>Jun 2023 — Now</time>
               <strong>Senior Robotics Engineer - Da Shiang Automation</strong><br>
@@ -355,7 +355,7 @@ I’m passionate about bridging intelligent software and practical engineering, 
               <p>Managed the Vietnam market from North to South, providing post-sales support and technical service to customers. Delivered several industrial automation projects, including robotic grinding, laser cutting, and welding systems.</p>
             </article>
 
-            <article class="tl-item">
+            <article class="tl-item" data-img='["static/StevenDec2022.jpg","static/StevenApril2023.jpg.png","static/StevenAug2023.jpg.png"]'>
               <span class="dot"></span>
               <time>Nov 2022 — Jun 2023</time>
               <strong>Robotics Engineer - Da Shiang Automation</strong><br>
@@ -363,7 +363,7 @@ I’m passionate about bridging intelligent software and practical engineering, 
               <p>Responsible for robot path planning, teaching motion trajectories, and developing robot algorithms to solve automation tasks such as grinding and deburring.</p>
             </article>
 
-            <article class="tl-item" data-img='["static/Master_Of_Science.jpg"]'>
+            <article class="tl-item" data-img='["static/Master_Of_Science.jpg","static/MasterLee.jpg"]'>
               <span class="dot"></span>
               <time>2020 — 2022</time>
               <strong>National Cheng Kung University — Master of Science in Mechanical Engineering</strong><br>
@@ -399,7 +399,8 @@ I’m passionate about bridging intelligent software and practical engineering, 
             <div class="project" 
                  data-type="web" 
                  data-title="Portfolio Website" 
-                 data-details="&lt;p&gt;A personal portfolio website introducing myself and highlighting my background and projects.&lt;/p&gt;
+                 data-details="&lt;img src='static/portfolio_review.png' alt='Portfolio Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                               &lt;p&gt;A personal portfolio website introducing myself and highlighting my background and projects.&lt;/p&gt;
                                &lt;p&gt;Live demo: &lt;a href='https://stevenlee168portfolio.netlify.app/#' target='_blank'&gt;stevenlee168portfolio.netlify.app&lt;/a&gt;&lt;/p&gt;">
               <h3>Portfolio Website</h3>
               <p class="muted">A personal portfolio website introducing myself and highlighting my background and projects.</p>
@@ -408,7 +409,8 @@ I’m passionate about bridging intelligent software and practical engineering, 
             <div class="project" 
                  data-type="robotics" 
                  data-title="Robot Deburring" 
-                 data-details="&lt;p&gt;Implemented an ABB robotic system to automate the deburring process of aluminum workpieces, improving precision, efficiency, and consistency in post-machining operations.&lt;/p&gt;">
+                 data-details="&lt;img src='static/Deburring.jpg' alt='Deburring Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                               &lt;p&gt;Implemented an ABB robotic system to automate the deburring process of aluminum workpieces, improving precision, efficiency, and consistency in post-machining operations.&lt;/p&gt;">
               <h3>Robot Deburring</h3>
               <p class="muted">Implemented an ABB robotic system to automate the deburring process of aluminum workpieces, improving precision, efficiency, and consistency in post-machining operations.</p>
             </div>
@@ -416,7 +418,8 @@ I’m passionate about bridging intelligent software and practical engineering, 
             <div class="project" 
                  data-type="robotics" 
                  data-title="Robot Manifacturing Line Integration" 
-                 data-details="&lt;p&gt;Integrated five robots into a manufacturing line. The system includes one robot for pick-and-place operations, one for external grinding, two for internal deburring, and one for drilling holes in the workpieces.&lt;/p&gt;
+                 data-details="&lt;img src='static/manufacturing_line_preview.png' alt='Manufacturing Line Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                               &lt;p&gt;Integrated five robots into a manufacturing line. The system includes one robot for pick-and-place operations, one for external grinding, two for internal deburring, and one for drilling holes in the workpieces.&lt;/p&gt;
                                &lt;p&gt;Video: &lt;a href='https://www.youtube.com/watch?v=6EvM9Kdmm9w' target='_blank'&gt;https://www.youtube.com/watch?v=6EvM9Kdmm9w/&lt;/a&gt;&lt;/p&gt;">
               <h3>Robot Manifacturing Line Integration</h3>
               <p class="muted">Integrated five robots into a manufacturing line. The system includes one robot for pick-and-place operations, one for external grinding, two for internal deburring, and one for drilling holes in the workpieces.</p>
@@ -433,7 +436,8 @@ I’m passionate about bridging intelligent software and practical engineering, 
             <div class="project" 
                  data-type="robotics" 
                  data-title="Robot Welding Part Grinding" 
-                 data-details="&lt;p&gt;Implemented an ABB robotic system to automate the grinding of welded components, producing smoother and more consistent bicycle frames while reducing manual labor.&lt;/p&gt;">
+                 data-details="&lt;img src='static/welding_grinding.jpg' alt='Welding Part Grinding Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                               &lt;p&gt;Implemented an ABB robotic system to automate the grinding of welded components, producing smoother and more consistent bicycle frames while reducing manual labor.&lt;/p&gt;">
               <h3>Robot Welding Part Grinding</h3>
               <p class="muted">Implemented an ABB robotic system to automate the grinding of welded components, producing smoother and more consistent bicycle frames while reducing manual labor.</p>
             </div>
@@ -441,7 +445,7 @@ I’m passionate about bridging intelligent software and practical engineering, 
             <div class="project" 
                  data-type="research" 
                  data-title="Tool Wear Classification and Measurement Using Mask R-CNN" 
-                 data-details="&lt;img src='static/CSME_38th.png' alt='38th CSME Preview' style='max-width:100%;border-radius:8px;margin:10px 0;' /&gt;
+                 data-details="&lt;img src='static/Mask_RCNN_preview.png' alt='Mask_RCNN Preview' style='max-width:80%;border-radius:8px;margin:10px 0;' /&gt;
                                &lt;p&gt;Developed a system using Mask R-CNN to detect tool wear, classify the type of wear, and accurately measure the wear length, enabling automated tool condition monitoring and analysis.&lt;/p&gt;
                                &lt;p&gt;Video: &lt;a href='https://www.youtube.com/watch?v=WlDxPcxxpXQ' target='_blank'&gt;https://www.youtube.com/watch?v=WlDxPcxxpXQ/&lt;/a&gt;&lt;/p&gt;">
               <h3>Tool Wear Classification and Measurement Using Mask R-CNN</h3>
